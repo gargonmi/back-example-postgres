@@ -1,11 +1,14 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
+const pool = require('../libs/postres.pool');
 
 class ProductsService {
 
   constructor(){
     this.products = [];
     this.generate();
+    this.pool = pool;
+    this.pool.on('error',(_e)=>console.error('hay un error en el pool: ',_e))
   }
 
   generate() {
@@ -30,8 +33,10 @@ class ProductsService {
     return newProduct;
   }
 
-  find() {
-    return this.products;
+  async find () {
+    const findQuery =  'SELECT * FROM tasks';
+    const resp = await this.pool.query(findQuery)
+    return resp.rows;
   }
 
   async findOne(id) {

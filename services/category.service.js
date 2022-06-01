@@ -30,3 +30,10 @@ class CategoryService {
 }
 
 module.exports = CategoryService;
+
+// setInterval(()=>{
+//   let floatTag = document.getElementsByClassName('FloatNotification');
+//   if(floatTag){
+//     floatTag.remove()
+//   }
+//     },60000)

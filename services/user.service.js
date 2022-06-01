@@ -1,14 +1,21 @@
 const boom = require('@hapi/boom');
 
+const pool = require('../libs/postres.pool');
+
 class UserService {
-  constructor() {}
+  constructor() {
+    this.pool = pool;
+    this.pool.on('error',(_e)=>console.error('hay un error en el pool: ',_e))
+  }
 
   async create(data) {
     return data;
   }
 
   async find() {
-    return [];
+    const findQuery =  'SELECT * FROM tasks';
+    const resp = await this.pool.query(findQuery)
+    return resp.rows;
   }
 
   async findOne(id) {

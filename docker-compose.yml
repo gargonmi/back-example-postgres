@@ -1,0 +1,22 @@
+version: ‘3.7’
+services:
+  maPostgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=maStore
+      - POSTGRES_USER=gargonx
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=m.a.gargonx@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
