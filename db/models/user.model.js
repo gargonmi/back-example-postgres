@@ -23,13 +23,8 @@ const UserSchema = {
     unique:true,
     type:DataTypes.DATE,
     field:'created_at',
-    defaultValue:Sequelize.now()
+    defaultValue:Sequelize.NOW
 
-  },
-  password:{
-    allowNull:false,
-    unique:true,
-    type:DataTypes.STRING
   }
 }
 
@@ -38,5 +33,16 @@ class User extends Model{
   static associate(){
 
   }
+  static config(sequelize){
+    return {
+      sequelize,
+      tableName:USER_TABLE,
+      modelName:'User',
+      timestamps:false
+    }
+  }
 
 }
+
+
+module.exports = { USER_TABLE, UserSchema, User }

@@ -35,6 +35,7 @@ router.post('/',
     try {
       const body = req.body;
       const newCategory = await service.create(body);
+      console.log('se creo el user: ',newCategory)
       res.status(201).json(newCategory);
     } catch (error) {
       next(error);

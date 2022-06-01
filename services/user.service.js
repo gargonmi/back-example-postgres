@@ -1,35 +1,38 @@
 const boom = require('@hapi/boom');
 
-const pool = require('../libs/postres.pool');
+const {models} = require('./../libs/sequelize')
 
 class UserService {
   constructor() {
-    this.pool = pool;
-    this.pool.on('error',(_e)=>console.error('hay un error en el pool: ',_e))
   }
 
   async create(data) {
-    return data;
+    const newUser = await models.User.create(data);
+    return newUser;
   }
 
   async find() {
-    const findQuery =  'SELECT * FROM tasks';
-    const resp = await this.pool.query(findQuery)
-    return resp.rows;
+    const resp =  await models.User.findAll();
+    return resp;
   }
 
   async findOne(id) {
-    return { id };
+    const user = await models.User.findByPk(id);
+    if(!user){
+      boom.notFound('user not found')
+    }
+    return user;
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    const user = await this.findOne(id);
+    const resp = await user.update(changes);
+    return resp;
   }
 
   async delete(id) {
+    const user = await this.findOne(id);
+    await user.destroy()
     return { id };
   }
 }
