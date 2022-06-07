@@ -8,6 +8,9 @@ class OrderService {
   }
 
   async create(data) {
+    console.log('en servicio CRATE DATA getAttributes(): ',models.Order.getAttributes());
+    await models.Order.sync()
+    console.log('en servicio CRATE DATA  post sync getAttributes(): ',models.Order.getAttributes());
     const newOrder = await models.Order.create(data);
     return newOrder;
   }
@@ -17,15 +20,15 @@ class OrderService {
   }
 
   async findOne(id) {
-    // const order = await models.Order.findByPk(id, {
-    //   include: [
-    //     {
-    //       association: 'customer',
-    //       include: ['user']
-    //     }
-    //   ]
-    // });
-    const order = await models.Order.findByPk(id);
+    const order = await models.Order.findByPk(id, {
+      include: [
+        {
+          association: 'customer',
+          include: ['user']
+        }
+      ]
+    });
+    // const order = await models.Order.findByPk(id);
     return order;
   }
 
